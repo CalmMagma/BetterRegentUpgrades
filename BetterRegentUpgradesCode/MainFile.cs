@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Modding;
 
 namespace BetterRegentUpgrades.BetterRegentUpgradesCode;
 
-//You're recommended but not required to keep all your code in this package and all your assets in the BetterRegentUpgrades folder.
 [ModInitializer(nameof(Initialize))]
 public partial class MainFile : Node
 {
@@ -14,7 +13,7 @@ public partial class MainFile : Node
     public static void Initialize()
     {
         Harmony harmony = new(ModId);
-        harmony.PatchAll();
+        harmony.PatchAll(typeof(MainFile).Assembly);
     }
     
     

@@ -5,22 +5,19 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 
 namespace BetterRegentUpgrades.BetterRegentUpgradesCode.Patches;
 
-[HarmonyPatch(typeof(Conqueror), "OnUpgrade")]
-public static class ConquerorUpgrade 
+[HarmonyPatch]
+public static class UpgradePatches 
 {
-    [HarmonyPrefix]
-    public static bool Prefix(CardModel __instance) {
+    // -- CONQUEROR --
+    [HarmonyPrefix, HarmonyPatch(typeof(Conqueror), "OnUpgrade")]
+    static bool ConquerorUpgrade(Conqueror __instance) {
         __instance.AddKeyword(CardKeyword.Retain);
         return false;
     }
-}
-
-[HarmonyPatch(typeof(SeekingEdge), "OnUpgrade")]
-public static class SeekingEdgeUpgrade
-{
-    [HarmonyPrefix]
-    public static bool Prefix(CardModel __instance) {
-        
+    
+    // -- SEEKING EDGE --
+    [HarmonyPrefix, HarmonyPatch(typeof(SeekingEdge), "OnUpgrade")]
+    static bool SeekingEdgeUpgrade(SeekingEdge __instance) {
         __instance.EnergyCost.UpgradeBy(-1);
         return false;
     }

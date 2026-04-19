@@ -8,6 +8,7 @@
         <DefaultItemExcludes>packages/**</DefaultItemExcludes>
         <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
         <PathMap>$(AppOutputBase)=.\</PathMap>
+        <AssemblyName>MagmaDys_BetterRegentUpgrades</AssemblyName>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -54,7 +55,7 @@
     <ItemGroup>
         <None Condition="Exists('Directory.Build.props')" Include="Directory.Build.props"/>
         <None Include=".gitignore"/>
-        <None Include="BetterRegentUpgrades.json"/>
+        <None Include="MagmaDys_BetterRegentUpgrades.json" />
         <None Include="project.godot"/>
         <None Include="BetterRegentUpgrades/**"/>
     </ItemGroup>
