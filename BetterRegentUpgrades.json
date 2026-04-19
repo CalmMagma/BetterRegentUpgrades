@@ -1,10 +1,10 @@
 {
-  "id": "BetterRegentUpgrades",
+  "id": "MagmaDys_BetterRegentUpgrades",
   "name": "Better Regent Upgrades",
   "author": "CalmMagma and Distopia",
   "description": "Improves the upgrades of some Regent cards.",
   "version": "v0.0.1",
-  "has_pck": true,
+  "has_pck": false,
   "has_dll": true,
   "dependencies": ["BaseLib"],
   "affects_gameplay": true
