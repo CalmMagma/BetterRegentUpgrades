@@ -13,7 +13,7 @@ public partial class MainFile : Node
     public static void Initialize()
     {
         Harmony harmony = new(ModId);
-        harmony.PatchAll(typeof(MainFile).Assembly);
+        harmony.PatchAll();
     }
     
     
