@@ -64,5 +64,23 @@ public static class UpgradePatches
         });
         return false;
     }
+    
+    // -- ROYALTIES --
+    [HarmonyPostfix, HarmonyPatch(typeof(Royalties), "OnPlay")]
 
+    static bool RoyaltiesUpgrade(Royalties __instance, PlayerChoiceContext choiceContext, CardPlay cardPlay,
+        ref Task __result)
+    {
+        __result = Task.Run(async () =>
+            {
+                if (__instance.IsUpgraded)
+                { 
+                    await PowerCmd.Apply<UpgradedRoyaltiesPower>(__instance.Owner.Creature, 1, __instance.Owner.Creature, __instance, true);
+                }
+            }
+        );
+        
+        return false;
+    }
+    
 }

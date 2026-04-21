@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRegentUpgrades", "BetterRegentUpgrades.csproj", "{BEF51465-4C52-4EB5-864B-44EB9CFD4F0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagmaDys_BetterRegentUpgrades", "MagmaDys_BetterRegentUpgrades.csproj", "{BEF51465-4C52-4EB5-864B-44EB9CFD4F0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

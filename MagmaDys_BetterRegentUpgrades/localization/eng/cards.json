@@ -1,3 +1,4 @@
 {
-    "HEIRLOOM_HAMMER.description": "Deal {Damage:diff()} damage.\nChoose a Colorless card in your [gold]Hand[/gold]. Add a copy of that card into your [gold]Hand[/gold]. {IfUpgraded:show:It's free to play this turn.|}"
+    "HEIRLOOM_HAMMER.description": "Deal {Damage:diff()} damage.\nChoose a Colorless card in your [gold]Hand[/gold]. Add a copy of that card into your [gold]Hand[/gold]. {IfUpgraded:show:It's free to play this turn.|}",
+    "ROYALTIES.description": "At the end of combat, {Gold:diff()} [gold]Gold[/gold]. {IfUpgraded:show:Gain an additional 3 [gold]Gold[/gold] every time you play a Colorless card.|}"
 }
