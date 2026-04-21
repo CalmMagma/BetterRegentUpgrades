@@ -68,7 +68,7 @@ public static class UpgradePatches
     // -- ROYALTIES --
     [HarmonyPostfix, HarmonyPatch(typeof(Royalties), "OnPlay")]
 
-    static bool RoyaltiesUpgrade(Royalties __instance, PlayerChoiceContext choiceContext, CardPlay cardPlay,
+    static void RoyaltiesUpgrade(Royalties __instance, PlayerChoiceContext choiceContext, CardPlay cardPlay,
         ref Task __result)
     {
         __result = Task.Run(async () =>
@@ -79,8 +79,6 @@ public static class UpgradePatches
                 }
             }
         );
-        
-        return false;
     }
     
 }
