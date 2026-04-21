@@ -1,0 +1,3 @@
+{
+    "HEIRLOOM_HAMMER.description": "Deal {Damage:diff()} damage.\nChoose a Colorless card in your [gold]Hand[/gold]. Add a copy of that card into your [gold]Hand[/gold]. {IfUpgraded:show:It's free to play this turn.|}"
+}
