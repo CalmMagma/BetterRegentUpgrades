@@ -14,6 +14,7 @@ namespace BetterRegentUpgrades.BetterRegentUpgradesCode;
 
 public class UpgradedRoyaltiesPower : CustomPowerModel
 {
+    protected override bool IsVisibleInternal => false;
     public override PowerType Type => PowerType.Buff;
   
     public override PowerStackType StackType => PowerStackType.Counter;
