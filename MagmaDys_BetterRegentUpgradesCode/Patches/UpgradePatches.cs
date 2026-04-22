@@ -5,9 +5,10 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 
 
 namespace BetterRegentUpgrades.BetterRegentUpgradesCode.Patches;
@@ -81,4 +82,165 @@ public static class UpgradePatches
         );
     }
     
-}
+    // -- FALLING STAR --
+    [HarmonyPrefix, HarmonyPatch(typeof(FallingStar), "OnUpgrade")]
+
+    static bool FallingStarUpgrade(FallingStar __instance)
+    {
+        __instance.DynamicVars.Weak.UpgradeValueBy(1);
+        __instance.DynamicVars.Vulnerable.UpgradeValueBy(1);
+        return false;
+    }
+    
+    // -- GAMMA BLAST--
+    [HarmonyPrefix, HarmonyPatch(typeof(GammaBlast), "OnUpgrade")]
+
+    static bool GammaBlastUpgrade(GammaBlast __instance)
+    {
+        __instance.DynamicVars.Weak.UpgradeValueBy(1);
+        __instance.DynamicVars.Vulnerable.UpgradeValueBy(1);
+        return false;
+    }
+    
+    // -- MANIFEST AUTHORITY
+
+    [HarmonyPrefix, HarmonyPatch(typeof(ManifestAuthority), "OnUpgrade")]
+
+    static bool ManifestAuthorityUpgrade(ManifestAuthority __instance)
+    {
+        __instance.DynamicVars.Block.UpgradeValueBy(4);
+        return false;
+    }
+    
+    // -- BUNDLE OF JOY --
+    
+    [HarmonyPrefix, HarmonyPatch(typeof(BundleOfJoy), "OnUpgrade")]
+
+    static bool BundleOfJoyUpgrade(BundleOfJoy __instance)
+    {
+        __instance.RemoveKeyword(CardKeyword.Exhaust);
+        return false;
+    }
+    
+    // -- SPOILS OF BATTLE --
+    
+    [HarmonyPrefix, HarmonyPatch(typeof(SpoilsOfBattle), "OnPlay")]
+
+    static bool SpoilsOfBattleUpgrade(SpoilsOfBattle __instance, ref Task __result, PlayerChoiceContext choiceContext)
+    {
+        __result = Task.Run(async () =>
+        {
+            await ForgeCmd.Forge(__instance.DynamicVars.Forge.IntValue, __instance.Owner, __instance);
+            await PlayerCmd.GainStars(__instance.DynamicVars.Stars.BaseValue, __instance.Owner);
+            await CardPileCmd.Draw(choiceContext, __instance.DynamicVars.Cards.BaseValue, __instance.Owner);
+        });
+        return false;
+    }
+    
+    [HarmonyPrefix, HarmonyPatch(typeof(SpoilsOfBattle), "CanonicalVars", MethodType.Getter)]
+
+    static bool SpoilsOfBattleUpgrade(SpoilsOfBattle __instance, ref IEnumerable<DynamicVar> __result)
+    {
+        __result = new List<DynamicVar>
+        {
+            new ForgeVar(5),
+            new CardsVar(2),
+            new StarsVar(1)
+        };
+        return false;
+    }
+    
+    // -- SPECTRUM SHIFT --
+
+    [HarmonyPrefix, HarmonyPatch(typeof(SpectrumShift), "OnPlay")]
+
+    static bool SpectrumShiftOnPlay(SpectrumShift __instance, ref  Task __result)
+    {
+        __result = Task.Run(async () =>
+        {
+            await CreatureCmd.TriggerAnim(__instance.Owner.Creature, "Cast", __instance.Owner.Character.CastAnimDelay);
+            if (__instance.IsUpgraded)
+            {
+              await PowerCmd.Apply<bruSpectrumShiftPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
+            }
+            else
+            {
+              await PowerCmd.Apply<SpectrumShiftPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);  
+            }
+        });
+
+        return false;
+    }
+    
+    // -- FOREGONE CONCLUSION
+
+    [HarmonyPrefix, HarmonyPatch(typeof(ForegoneConclusion), "OnUpgrade")]
+    
+    static bool ForgoneConclusionUpgrade(ForegoneConclusion __instance)
+    {
+        if (__instance.IsUpgraded)
+        {
+
+            
+        }
+        return false;
+    }
+
+     [HarmonyPrefix, HarmonyPatch(typeof(ForegoneConclusion), "OnPlay")]
+
+    static bool ForegoneConclusionOnPlay(ForegoneConclusion __instance, ref Task __result)
+    {
+    __result = Task.Run(async () =>
+    {
+
+    });
+        return false;
+    }
+
+    // -- CRASH LANDING --
+    /*
+    [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "OnUpgrade")]
+
+    static bool CrashLandingUpgrade(CrashLanding __instance)
+    {
+         __instance.DynamicVars.ExtraDamage.UpgradeValueBy(2);
+        return false;
+    } /*
+
+    [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "CanonicalVars", MethodType.Getter)]
+
+    static bool CrashLandingVars(CrashLanding __instance, ref IEnumerable<DynamicVar> __result)
+    {
+        __result = new List<DynamicVar>
+        {
+            new CalculationBaseVar(21),
+            new ExtraDamageVar(0),
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+                card.Owner.PlayerCombatState.AllCards.Count((CardModel c) => c is Debris))
+        };
+        return false;
+    }
+
+    [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "OnPlay")]
+
+    static bool CrashLandingOnPlay(CrashLanding __instance, ref Task __result, PlayerChoiceContext choiceContext)
+    {
+        __result = new Task(async () =>
+        {
+            await DamageCmd.Attack(__instance.DynamicVars.CalculatedDamage.BaseValue).FromCard(__instance).TargetingAllOpponents(__instance.CombatState)
+                .WithHitFx("vfx/vfx_heavy_blunt", null, "heavy_attack.mp3")
+                .WithHitVfxSpawnedAtBase()
+                .Execute(choiceContext);
+            int num = 10 - CardPile.GetCards(__instance.Owner, PileType.Hand).Count();
+            List<CardModel> list = new List<CardModel>();
+            for (int i = 0; i < num; i++)
+            {
+                list.Add(__instance.CombatState.CreateCard<Debris>(__instance.Owner));
+            }
+            await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true);
+        });
+
+        return false;
+    }
+    */
+}   

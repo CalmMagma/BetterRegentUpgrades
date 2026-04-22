@@ -1,6 +1,13 @@
 {
   "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.description": "",
   "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.smartDescription": "",
-  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.title": "UpgradedRoyaltiesPower"
-  
+  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.title": "UpgradedRoyaltiesPower",
+
+  "BETTERREGENTUPGRADES-BRU_SPECTRUM_SHIFT_POWER.description": "At the start of your turn, add [blue]1[/blue] random Upgraded Colorless card into your [gold]Hand[/gold].",
+  "BETTERREGENTUPGRADES-BRU_SPECTRUM_SHIFT_POWER.smartDescription": "At the start of your turn, add [blue]{Amount}[/blue] random Upgraded Colorless {Amount:plural:card|cards} into your [gold]Hand[/gold].",
+  "BETTERREGENTUPGRADES-BRU_SPECTRUM_SHIFT_POWER.title": "Spectrum Shift+",
+
+  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.description": "",
+  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.smartDescription": "",
+  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.title": "bruForegoneConclusionPower"
 }
