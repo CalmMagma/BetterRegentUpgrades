@@ -51,31 +51,27 @@ public class bruSpectrumShiftPower : CustomPowerModel
             Flash();
         }
     }
+}
 
 public class bruForegoneConclusionPower : CustomPowerModel
+{
+    public override PowerType Type => PowerType.Buff;
+
+    public override PowerStackType StackType => PowerStackType.Counter;
+
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {
-        public override PowerType Type => PowerType.Buff;
-
-        public override PowerStackType StackType => PowerStackType.Counter;
-
-        public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+        if (player == this.Owner.Player)
         {
-            if (player == base.Owner.Player)
-            {
-                await CardPileCmd.ShuffleIfNecessary(choiceContext, base.Owner.Player);
-                var list = await CardSelectCmd.FromSimpleGrid(choiceContext,
-                    (from c in PileType.Draw.GetPile(base.Owner.Player).Cards
-                        orderby c.Rarity, c.Id
-                        select c).ToList();
-                await CardPileCmd.Add(list, base.Owner.Player, new CardSelectorPrefs(base.SelectionScreenPrompt, base.Amount)), PileType.Hand);
-                await PowerCmd.Remove(this);
-            }
+            await CardPileCmd.ShuffleIfNecessary(choiceContext, this.Owner.Player);
+            var list = await CardSelectCmd.FromSimpleGrid(choiceContext,
+                (from c in PileType.Draw.GetPile(base.Owner.Player).Cards
+                    orderby c.Rarity, c.Id
+                    select c).ToList(), base.Owner.Player, new CardSelectorPrefs(base.SelectionScreenPrompt, base.Amount));
+            foreach (var card in list)
+                card.EnergyCost.AddThisTurn(-1);
+            await CardPileCmd.Add(list, PileType.Hand);
+            await PowerCmd.Remove(this);
         }
-        
-        private void bruReduceCostBy(int amount) 
-        {
-            
-            base.EnergyCost.AddThisTurn(-amount);
-        }
-    }    
-}
+    }
+}    

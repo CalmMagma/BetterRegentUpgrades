@@ -68,7 +68,6 @@ public static class UpgradePatches
     
     // -- ROYALTIES --
     [HarmonyPostfix, HarmonyPatch(typeof(Royalties), "OnPlay")]
-
     static void RoyaltiesUpgrade(Royalties __instance, PlayerChoiceContext choiceContext, CardPlay cardPlay,
         ref Task __result)
     {
@@ -84,7 +83,6 @@ public static class UpgradePatches
     
     // -- FALLING STAR --
     [HarmonyPrefix, HarmonyPatch(typeof(FallingStar), "OnUpgrade")]
-
     static bool FallingStarUpgrade(FallingStar __instance)
     {
         __instance.DynamicVars.Weak.UpgradeValueBy(1);
@@ -94,7 +92,6 @@ public static class UpgradePatches
     
     // -- GAMMA BLAST--
     [HarmonyPrefix, HarmonyPatch(typeof(GammaBlast), "OnUpgrade")]
-
     static bool GammaBlastUpgrade(GammaBlast __instance)
     {
         __instance.DynamicVars.Weak.UpgradeValueBy(1);
@@ -105,7 +102,6 @@ public static class UpgradePatches
     // -- MANIFEST AUTHORITY
 
     [HarmonyPrefix, HarmonyPatch(typeof(ManifestAuthority), "OnUpgrade")]
-
     static bool ManifestAuthorityUpgrade(ManifestAuthority __instance)
     {
         __instance.DynamicVars.Block.UpgradeValueBy(4);
@@ -115,7 +111,6 @@ public static class UpgradePatches
     // -- BUNDLE OF JOY --
     
     [HarmonyPrefix, HarmonyPatch(typeof(BundleOfJoy), "OnUpgrade")]
-
     static bool BundleOfJoyUpgrade(BundleOfJoy __instance)
     {
         __instance.RemoveKeyword(CardKeyword.Exhaust);
@@ -125,7 +120,6 @@ public static class UpgradePatches
     // -- SPOILS OF BATTLE --
     
     [HarmonyPrefix, HarmonyPatch(typeof(SpoilsOfBattle), "OnPlay")]
-
     static bool SpoilsOfBattleUpgrade(SpoilsOfBattle __instance, ref Task __result, PlayerChoiceContext choiceContext)
     {
         __result = Task.Run(async () =>
@@ -138,7 +132,6 @@ public static class UpgradePatches
     }
     
     [HarmonyPrefix, HarmonyPatch(typeof(SpoilsOfBattle), "CanonicalVars", MethodType.Getter)]
-
     static bool SpoilsOfBattleUpgrade(SpoilsOfBattle __instance, ref IEnumerable<DynamicVar> __result)
     {
         __result = new List<DynamicVar>
@@ -153,7 +146,6 @@ public static class UpgradePatches
     // -- SPECTRUM SHIFT --
 
     [HarmonyPrefix, HarmonyPatch(typeof(SpectrumShift), "OnPlay")]
-
     static bool SpectrumShiftOnPlay(SpectrumShift __instance, ref  Task __result)
     {
         __result = Task.Run(async () =>
@@ -175,25 +167,22 @@ public static class UpgradePatches
     // -- FOREGONE CONCLUSION
 
     [HarmonyPrefix, HarmonyPatch(typeof(ForegoneConclusion), "OnUpgrade")]
-    
     static bool ForgoneConclusionUpgrade(ForegoneConclusion __instance)
     {
-        if (__instance.IsUpgraded)
-        {
-
-            
-        }
         return false;
     }
 
      [HarmonyPrefix, HarmonyPatch(typeof(ForegoneConclusion), "OnPlay")]
-
     static bool ForegoneConclusionOnPlay(ForegoneConclusion __instance, ref Task __result)
-    {
-    __result = Task.Run(async () =>
-    {
-
-    });
+     {
+        __result = Task.Run(async () =>
+        {
+            await CreatureCmd.TriggerAnim(__instance.Owner.Creature, "Cast", __instance.Owner.Character.CastAnimDelay);
+            if (__instance.IsUpgraded)
+                await PowerCmd.Apply<bruForegoneConclusionPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
+            else
+                await PowerCmd.Apply<ForegoneConclusionPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
+        });
         return false;
     }
 
