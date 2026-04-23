@@ -1,13 +1,14 @@
 {
-  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.description": "",
-  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.smartDescription": "",
-  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.title": "UpgradedRoyaltiesPower",
+  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.description": "At the end of combat, gain [blue]25[/blue] [gold]Gold[/gold]. Gain an additional 3 [gold]Gold[/gold] every time you play a Colorless card.",
+  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.smartDescription": "At the end of combat, gain [blue]{Amount}[/blue] [gold]Gold[/gold]. Gain an additional 3 [gold]Gold[/gold] every time you play a Colorless card.",
+  "BETTERREGENTUPGRADES-UPGRADED_ROYALTIES_POWER.title": "Royalties Power+",
 
   "BETTERREGENTUPGRADES-BRU_SPECTRUM_SHIFT_POWER.description": "At the start of your turn, add [blue]1[/blue] random Upgraded Colorless card into your [gold]Hand[/gold].",
   "BETTERREGENTUPGRADES-BRU_SPECTRUM_SHIFT_POWER.smartDescription": "At the start of your turn, add [blue]{Amount}[/blue] random Upgraded Colorless {Amount:plural:card|cards} into your [gold]Hand[/gold].",
   "BETTERREGENTUPGRADES-BRU_SPECTRUM_SHIFT_POWER.title": "Spectrum Shift+",
 
-  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.description": "",
-  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.smartDescription": "",
+  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.description": "Next turn, put [blue]2[/blue] cards from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold]. They cost {energyPrefix:energyIcons(1)} less this turn.",
+  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.selectionScreenPrompt": "Choose {Amount:plural:a card|{} cards} to add into your Hand.",
+  "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.smartDescription": "Next turn, put [blue]{Amount}[/blue] cards from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold]. They cost {energyPrefix:energyIcons(1)} less this turn.",
   "BETTERREGENTUPGRADES-BRU_FOREGONE_CONCLUSION_POWER.title": "Foregone Conclusion+"
 }

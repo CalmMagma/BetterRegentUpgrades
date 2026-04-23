@@ -3,5 +3,6 @@
     "SPOILS_OF_BATTLE.description": "[gold]Forge[/gold] {Forge:diff()}.{IfUpgraded:show:\nGain {Stars:starIcons()}.|}\nDraw {Cards:diff()} {Cards:plural:card|cards}.",
     "SPECTRUM_SHIFT.description": "At the start of your turn, add {Cards:diff()} random {IfUpgraded:show:Upgraded|} Colorless {Cards:plural:card|cards} into your [gold]Hand[/gold].",
     "ROYALTIES.description": "At the end of combat, {Gold:diff()} [gold]Gold[/gold]. {IfUpgraded:show:Gain an additional 3 [gold]Gold[/gold] every time you play a Colorless card.|}",
-    "_CRASH_LANDING.description":"Deal {CalculatedDamage:diff()} damage to ALL enemies. {IfUpgraded:show:Deals {ExtraDamage:diff()} additional damage for ALL your cards containing [gold]Debris[/gold].|}\nFill your [gold]Hand[/gold] with [gold]Debris[/gold]."
+    "_CRASH_LANDING.description":"Deal {CalculatedDamage:diff()} damage to ALL enemies. {IfUpgraded:show:Deals {ExtraDamage:diff()} additional damage for ALL your cards containing [gold]Debris[/gold].|}\nFill your [gold]Hand[/gold] with [gold]Debris[/gold].",
+    "FOREGONE_CONCLUSION.description": "Next turn, put {Cards:diff()} cards from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold]. {IfUpgraded:show:They cost {Energy:energyIcons()} less to play this turn.|}"
 }

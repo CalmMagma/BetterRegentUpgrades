@@ -55,8 +55,9 @@ public class bruSpectrumShiftPower : CustomPowerModel
 
 public class bruForegoneConclusionPower : CustomPowerModel
 {
+    public override string CustomPackedIconPath => $"res://MagmaDys_BetterRegentUpgrades/images/powers/bruforegone_conclusion_power.png";
+    public override string CustomBigIconPath => $"res://MagmaDys_BetterRegentUpgrades/images/powers/big/bruforegone_conclusion_power.png";
     public override PowerType Type => PowerType.Buff;
-
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
@@ -74,4 +75,6 @@ public class bruForegoneConclusionPower : CustomPowerModel
             await PowerCmd.Remove(this);
         }
     }
+    
+    
 }    

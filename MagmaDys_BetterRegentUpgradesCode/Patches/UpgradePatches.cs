@@ -119,17 +119,17 @@ public static class UpgradePatches
     
     // -- SPOILS OF BATTLE --
     
-    [HarmonyPrefix, HarmonyPatch(typeof(SpoilsOfBattle), "OnPlay")]
-    static bool SpoilsOfBattleUpgrade(SpoilsOfBattle __instance, ref Task __result, PlayerChoiceContext choiceContext)
+    [HarmonyPostfix, HarmonyPatch(typeof(SpoilsOfBattle), "OnPlay")]
+    static void SpoilsOfBattleUpgrade(SpoilsOfBattle __instance)
     {
-        __result = Task.Run(async () =>
+        Task.Run(async()=>
         {
-            await ForgeCmd.Forge(__instance.DynamicVars.Forge.IntValue, __instance.Owner, __instance);
-            await PlayerCmd.GainStars(__instance.DynamicVars.Stars.BaseValue, __instance.Owner);
-            await CardPileCmd.Draw(choiceContext, __instance.DynamicVars.Cards.BaseValue, __instance.Owner);
+            if (__instance.IsUpgraded)
+                await PlayerCmd.GainStars(__instance.DynamicVars.Stars.BaseValue, __instance.Owner);
+          
         });
-        return false;
-    }
+        
+    } 
     
     [HarmonyPrefix, HarmonyPatch(typeof(SpoilsOfBattle), "CanonicalVars", MethodType.Getter)]
     static bool SpoilsOfBattleUpgrade(SpoilsOfBattle __instance, ref IEnumerable<DynamicVar> __result)
@@ -183,6 +183,17 @@ public static class UpgradePatches
             else
                 await PowerCmd.Apply<ForegoneConclusionPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
         });
+        return false;
+    }
+    
+    [HarmonyPrefix, HarmonyPatch(typeof(ForegoneConclusion), "CanonicalVars", MethodType.Getter)]
+    static bool ForegoneConclusionKeywords(ForegoneConclusion __instance, ref IEnumerable<DynamicVar> __result)
+    {
+        __result = new List<DynamicVar>
+        {
+            new CardsVar(2),
+            new EnergyVar(1)
+        };
         return false;
     }
 
