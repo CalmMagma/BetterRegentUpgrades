@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Logging;
 
 
 namespace BetterRegentUpgrades.BetterRegentUpgradesCode.Patches;
@@ -198,17 +199,14 @@ public static class UpgradePatches
     }
 
     // -- CRASH LANDING --
-    /*
     [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "OnUpgrade")]
-
     static bool CrashLandingUpgrade(CrashLanding __instance)
     {
          __instance.DynamicVars.ExtraDamage.UpgradeValueBy(2);
         return false;
-    } /*
+    } 
 
     [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "CanonicalVars", MethodType.Getter)]
-
     static bool CrashLandingVars(CrashLanding __instance, ref IEnumerable<DynamicVar> __result)
     {
         __result = new List<DynamicVar>
@@ -222,25 +220,26 @@ public static class UpgradePatches
     }
 
     [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "OnPlay")]
-
     static bool CrashLandingOnPlay(CrashLanding __instance, ref Task __result, PlayerChoiceContext choiceContext)
     {
         __result = new Task(async () =>
         {
-            await DamageCmd.Attack(__instance.DynamicVars.CalculatedDamage.BaseValue).FromCard(__instance).TargetingAllOpponents(__instance.CombatState)
-                .WithHitFx("vfx/vfx_heavy_blunt", null, "heavy_attack.mp3")
-                .WithHitVfxSpawnedAtBase()
-                .Execute(choiceContext);
-            int num = 10 - CardPile.GetCards(__instance.Owner, PileType.Hand).Count();
-            List<CardModel> list = new List<CardModel>();
-            for (int i = 0; i < num; i++)
-            {
-                list.Add(__instance.CombatState.CreateCard<Debris>(__instance.Owner));
+            try {
+                await DamageCmd.Attack(__instance.DynamicVars.CalculatedDamage.BaseValue).FromCard(__instance).TargetingAllOpponents(__instance.CombatState)
+                    .WithHitFx("vfx/vfx_heavy_blunt", null, "heavy_attack.mp3")
+                    .WithHitVfxSpawnedAtBase()
+                    .Execute(choiceContext);
+                int num = 10 - CardPile.GetCards(__instance.Owner, PileType.Hand).Count();
+                List<CardModel> list = new List<CardModel>();
+                for (int i = 0; i < num; i++)
+                {       
+                    list.Add(__instance.CombatState.CreateCard<Debris>(__instance.Owner));
+                }       
+                await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true);
+            } catch (Exception e) {
+                MainFile.Logger.LogMessage(LogLevel.Warn, e.ToString(), 0);
             }
-            await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true);
         });
-
         return false;
     }
-    */
 }   
