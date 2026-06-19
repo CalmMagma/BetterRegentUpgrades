@@ -28,6 +28,7 @@ public static class UpgradePatches
         return false;
     }
     
+    /*
     // -- HEIRLOOM HAMMER --
     [HarmonyPrefix, HarmonyPatch(typeof(HeirloomHammer), "OnPlay")]
     static bool HeirloomHammerUpgrade(HeirloomHammer __instance, PlayerChoiceContext choiceContext, CardPlay cardPlay,
@@ -60,7 +61,7 @@ public static class UpgradePatches
             
         });
         return false;
-    }
+    }*/
     
     // -- ROYALTIES --
     [HarmonyPostfix, HarmonyPatch(typeof(Royalties), "OnPlay")]

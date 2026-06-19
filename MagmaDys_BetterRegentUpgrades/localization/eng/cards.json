@@ -1,5 +1,5 @@
 {
-    "HEIRLOOM_HAMMER.description": "Deal {Damage:diff()} damage.\nChoose a Colorless card in your [gold]Hand[/gold]. Add a copy of that card into your [gold]Hand[/gold]. {IfUpgraded:show:It's free to play this turn.|}",
+    "_HEIRLOOM_HAMMER.description": "Deal {Damage:diff()} damage.\nChoose a Colorless card in your [gold]Hand[/gold]. Add a copy of that card into your [gold]Hand[/gold]. {IfUpgraded:show:It's free to play this turn.|}",
     "SPOILS_OF_BATTLE.description": "[gold]Forge[/gold] {Forge:diff()}.{IfUpgraded:show:\nGain {Stars:starIcons()}.|}\nDraw {Cards:diff()} {Cards:plural:card|cards}.",
     "SPECTRUM_SHIFT.description": "At the start of your turn, add {Cards:diff()} random {IfUpgraded:show:Upgraded|} Colorless {Cards:plural:card|cards} into your [gold]Hand[/gold].",
     "ROYALTIES.description": "At the end of combat, {Gold:diff()} [gold]Gold[/gold]. {IfUpgraded:show:Gain an additional 3 [gold]Gold[/gold] every time you play a Colorless card.|}",
