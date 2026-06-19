@@ -7,9 +7,6 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Logging;
 
 
 namespace BetterRegentUpgrades.BetterRegentUpgradesCode.Patches;
@@ -59,7 +56,7 @@ public static class UpgradePatches
                         cardToGive.SetToFreeThisTurn();
                     }
 
-                    await CardPileCmd.AddGeneratedCardToCombat(cardToGive, PileType.Hand, addedByPlayer: true);
+                    await CardPileCmd.AddGeneratedCardToCombat(cardToGive, PileType.Hand, __instance.Owner);
                 }
             }
             
@@ -76,7 +73,7 @@ public static class UpgradePatches
             {
                 if (__instance.IsUpgraded)
                 { 
-                    await PowerCmd.Apply<UpgradedRoyaltiesPower>(__instance.Owner.Creature, 1, __instance.Owner.Creature, __instance, true);
+                    await PowerCmd.Apply<UpgradedRoyaltiesPower>(choiceContext, __instance.Owner.Creature, 1, __instance.Owner.Creature, __instance, true);
                 }
             }
         );
@@ -147,18 +144,18 @@ public static class UpgradePatches
     // -- SPECTRUM SHIFT --
 
     [HarmonyPrefix, HarmonyPatch(typeof(SpectrumShift), "OnPlay")]
-    static bool SpectrumShiftOnPlay(SpectrumShift __instance, ref  Task __result)
+    static bool SpectrumShiftOnPlay(SpectrumShift __instance, PlayerChoiceContext choiceContext, ref Task __result)
     {
         __result = Task.Run(async () =>
         {
             await CreatureCmd.TriggerAnim(__instance.Owner.Creature, "Cast", __instance.Owner.Character.CastAnimDelay);
             if (__instance.IsUpgraded)
             {
-              await PowerCmd.Apply<bruSpectrumShiftPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
+              await PowerCmd.Apply<bruSpectrumShiftPower>(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
             }
             else
             {
-              await PowerCmd.Apply<SpectrumShiftPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);  
+              await PowerCmd.Apply<SpectrumShiftPower>(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);  
             }
         });
 
@@ -174,15 +171,15 @@ public static class UpgradePatches
     }
 
      [HarmonyPrefix, HarmonyPatch(typeof(ForegoneConclusion), "OnPlay")]
-    static bool ForegoneConclusionOnPlay(ForegoneConclusion __instance, ref Task __result)
+    static bool ForegoneConclusionOnPlay(ForegoneConclusion __instance, PlayerChoiceContext choiceContext, ref Task __result)
      {
         __result = Task.Run(async () =>
         {
             await CreatureCmd.TriggerAnim(__instance.Owner.Creature, "Cast", __instance.Owner.Character.CastAnimDelay);
             if (__instance.IsUpgraded)
-                await PowerCmd.Apply<bruForegoneConclusionPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
+                await PowerCmd.Apply<bruForegoneConclusionPower>(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
             else
-                await PowerCmd.Apply<ForegoneConclusionPower>(__instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
+                await PowerCmd.Apply<ForegoneConclusionPower>(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.Cards.BaseValue, __instance.Owner.Creature, __instance);
         });
         return false;
     }
@@ -198,7 +195,8 @@ public static class UpgradePatches
         return false;
     }
 
-    // -- CRASH LANDING --
+    // -- CRASH LANDING -- 
+    /*
     [HarmonyPrefix, HarmonyPatch(typeof(CrashLanding), "OnUpgrade")]
     static bool CrashLandingUpgrade(CrashLanding __instance)
     {
@@ -241,5 +239,5 @@ public static class UpgradePatches
             }
         });
         return false;
-    }
+    }*/
 }   
