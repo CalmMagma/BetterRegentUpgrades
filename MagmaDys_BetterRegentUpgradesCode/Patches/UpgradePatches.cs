@@ -36,15 +36,15 @@ public static class UpgradePatches
         __result = Task.Run(async () =>
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-            await DamageCmd.Attack(__instance.DynamicVars.Damage.BaseValue).FromCard(__instance)
-                .Targeting(cardPlay.Target)
+            await DamageCmd.Attack(__instance.DynamicVars.Damage.BaseValue).FromCard(__instance).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
                 .Execute(choiceContext);
             CardModel selection = (await CardSelectCmd.FromHand(
-                    prefs: new CardSelectorPrefs(__instance.SelectionScreenPrompt, 1), context: choiceContext,
-                    player: __instance.Owner, filter: (CardModel c) => c.VisualCardPool.IsColorless,
-                    source: __instance))
-                .FirstOrDefault();
+                prefs: new CardSelectorPrefs(__instance.SelectionScreenPrompt, 1), 
+                context: choiceContext, 
+                player: __instance.Owner, 
+                filter: (CardModel c) => c.VisualCardPool.IsColorless, 
+                source: __instance)).FirstOrDefault();
             if (selection != null)
             {
                 for (int i = 0; i < __instance.DynamicVars.Repeat.IntValue; i++)
@@ -52,10 +52,8 @@ public static class UpgradePatches
                     CardModel cardToGive = selection.CreateClone();
                     if (__instance.IsUpgraded)
                     {
-
                         cardToGive.SetToFreeThisTurn();
                     }
-
                     await CardPileCmd.AddGeneratedCardToCombat(cardToGive, PileType.Hand, __instance.Owner);
                 }
             }
